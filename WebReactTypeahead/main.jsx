@@ -1,7 +1,4 @@
-﻿var React = require('react');
-var ReactDOM = require('react-dom');
-
-var HelloMessage = React.createClass({
+﻿var HelloMessage = React.createClass({
 
     getInitialState: function () {
         this.tid = 0;
@@ -16,17 +13,18 @@ var HelloMessage = React.createClass({
         var v = e.target.value;
         if (v.trim() != '') {
             this.setState({
-                keyword: v,
-                visibility: 'visible'
+                keyword: v
             });
 
             var _this = this;
             var f = function () { _this.getData(v) };
-            console.log('before tid', this.tid);
+            console.log('enter',new Date());
             if (this.tid == 0) {
                 this.tid = setTimeout(f, 500);
+            } else {
+                console.log('No Query', new Date());
             }
-            console.log('after tid', this.tid);
+
         } else {
             this.setState({
                 keyword: v,
@@ -40,6 +38,12 @@ var HelloMessage = React.createClass({
     getData: function (m) {
         clearTimeout(this.tid);
         this.tid = 0;
+
+        console.log('clear', new Date());
+
+        this.setState({
+            visibility: 'visible'
+        });
     },
     render: function () {
         var st = { visibility: this.state.visibility };

@@ -7,7 +7,8 @@ gulp.task('Compiler', function () {
         'Main.jsx'
     ];
     return gulp.src(jsfiles)
-        .pipe(react());
+        .pipe(react())
+        .pipe(gulp.dest('build/'));;
 });
 
 gulp.task('default', function () {
