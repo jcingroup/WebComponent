@@ -26,7 +26,7 @@
             var f = function () { _this.getData(v) };
             if (this.tid == 0) {
                 this.tid = setTimeout(f, 500);
-            } 
+            }
         } else {
             this.setState({
                 keyword: v,
@@ -78,17 +78,30 @@
     },
     render: function () {
         var out_selector = null;
-        console.log(this.state.visibility);
+        console.log(this.state.data);
         if (this.state.visibility) {
             out_selector = <Selector data={this.state.data} pointIndex={this.state.pointIndex} />;
         }
         return (
-        <div>
-            <input type="text" value={this.state.keyword}
-                   onChange={this.onChange}
-                   onKeyDown={this.keyDown} />
-            {out_selector}
-        </div>
+            <table>
+                <tbody>
+                <tr>
+                <td>----</td>
+                <td>
+                                    <input type="text" value={this.state.keyword}
+                                           onChange={this.onChange}
+                                           onKeyDown={this.keyDown} />
+                    {out_selector}
+                </td>
+                </tr>
+                <tr>
+                <td>----</td>
+                <td>
+                    <input type="text" value="" />
+                </td>
+                </tr>
+                </tbody>
+            </table>
         );
     }
 });
@@ -102,17 +115,17 @@ var Selector = React.createClass({
     },
     render: function () {
         return (
-            <ul>
+            <ul className="main">
                 {
                 this.props.data.map(function(item,i){
-                    if(this.props.pointIndex == i)
-                    {
-                        return <Options setClass={'hove'} data={item} />;
-                    }
-                    else
-                    {
-                        return <Options setClass={'item'} data={item} />;
-                    }
+                if(this.props.pointIndex == i)
+                {
+                return (<Options setClass="hove" data={item} key={item.value} />);
+                }
+                else
+                {
+                return (<Options setClass="item" data={item} key={item.value} />);
+                }
                 }.bind(this))
                 }
             </ul>
