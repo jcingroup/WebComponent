@@ -1,91 +1,148 @@
-﻿var HelloMessage = React.createClass({
+﻿var ReactTypeaheader = React.createClass({
 
     getInitialState: function () {
         this.tid = 0;
         return {
             inputValue: null,
             keyword: null,
-            visibility: 'hidden',
+            visibility: false,
             tid: null,
-            limitNumber: 5,
-            all_list: ['A Item', 'B Item', 'C Item', 'D Item', 'E Item', 'F Item',
-                       'G Item', 'H Item', 'I Item', 'J Item', 'K Item', 'L Item',
-                       'M Item', 'N Item', 'O Item', 'P Item', 'Q Item', '中文'],
-            list: []
+            data: [
+                { value: 'a', text: 'A Item' },
+                { value: 'b', text: 'B Item' },
+                { value: 'c', text: 'C Item' },
+            ],
+            pointIndex: 0
         };
     },
     onChange: function (e) {
         var v = e.target.value;
         if (v.trim() != '') {
-            var count = 1, limitTo = this.state.limitNumber;
-            var filter_list = this.state.all_list.filter(function (val) {
-                if (count <= limitTo) {
-                    if ((val.toUpperCase()).match(v.toUpperCase()) != null) {
-                        count++;
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else { return false; }
-            });
-
             this.setState({
-                keyword: v,
-                list: filter_list
+                keyword: v
             });
 
             var _this = this;
             var f = function () { _this.getData(v) };
-            console.log('enter', new Date());
             if (this.tid == 0) {
                 this.tid = setTimeout(f, 500);
-            } else {
-                console.log('No Query', new Date());
-            }
-
+            } 
         } else {
             this.setState({
                 keyword: v,
-                visibility: 'hidden'
+                visibility: false
             });
         }
     },
     onClickItem: function (v, e) {
-        this.setState({ keyword: v, visibility: 'hidden' });
+        this.setState({ keyword: v, visibility: false });
     },
     getData: function (m) {
         clearTimeout(this.tid);
         this.tid = 0;
-
-        console.log('clear', new Date());
-
         if (this.state.keyword.trim() == '') {
             this.setState({
-                visibility: 'hidden'
+                visibility: false
             });
         } else {
             this.setState({
-                visibility: 'visible'
+                visibility: true
             });
         }
     },
+    keyDown: function (e) {
+        //ArrowDown 40
+        //ArrowUp 38
+
+        if (e.keyCode == 40) {
+            if (this.state.pointIndex < this.state.data.length) {
+                var new_pos = this.state.pointIndex + 1;
+                var index_value = this.state.data[new_pos].value;
+                this.setState({ pointIndex: new_pos, keyword: index_value });
+            }
+        }
+
+        if (e.keyCode == 38) {
+            if (this.state.pointIndex > 0) {
+                var new_pos = this.state.pointIndex - 1;
+                var index_value = this.state.data[new_pos].value;
+                this.setState({ pointIndex: new_pos, keyword: index_value });
+            }
+        }
+
+        if (e.keyCode == 13) {
+            this.setState({ pointIndex: -1, visibility: false });
+        }
+
+        console.log('key down', e.key, e.keyCode);
+    },
     render: function () {
-        var st = { visibility: this.state.visibility };
+        var out_selector = null;
+        console.log(this.state.visibility);
+        if (this.state.visibility) {
+            out_selector = <Selector data={this.state.data} pointIndex={this.state.pointIndex} />;
+        }
         return (
         <div>
-            <input type="text" value={this.state.keyword} onChange={this.onChange} />
-            <ul style={st}>
-                {
-                this.state.list.map(function(itemData,i) {
-                return (
-                <li key={i}><a href="#" onClick={this.onClickItem.bind(this,itemData)}>{itemData}</a></li>);
-                }.bind(this))
-                }
-            </ul>
+            <input type="text" value={this.state.keyword}
+                   onChange={this.onChange}
+                   onKeyDown={this.keyDown} />
+            {out_selector}
         </div>
         );
     }
 });
 
+
+var Selector = React.createClass({
+
+    getInitialState: function () {
+        return {
+        };
+    },
+    render: function () {
+        return (
+            <ul>
+                {
+                this.props.data.map(function(item,i){
+                    if(this.props.pointIndex == i)
+                    {
+                        return <Options setClass={'hove'} data={item} />;
+                    }
+                    else
+                    {
+                        return <Options setClass={'item'} data={item} />;
+                    }
+                }.bind(this))
+                }
+            </ul>
+        );
+    }
+});
+
+
+var Options = React.createClass({
+
+    getInitialState: function () {
+
+        return {
+
+        };
+    },
+    getDefaultProps: function () {
+        return {
+            setClass: 'item'
+        };
+    },
+
+    render: function () {
+        return (
+                <li className={this.props.setClass}>
+                    <a href="#">{this.props.data.text}</a>
+                </li>
+        );
+    }
+});
+
 var mountNode = document.getElementById("context");
-ReactDOM.render(<HelloMessage />, mountNode);
+ReactDOM.render(<ReactTypeaheader />, mountNode);
