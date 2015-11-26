@@ -4,9 +4,7 @@ var ReactDOM = require('react-dom');
 var HelloMessage = React.createClass({
 
     getInitialState: function () {
-
         this.tid = 0;
-
         return {
             inputValue: null,
             keyword: null,
@@ -17,7 +15,6 @@ var HelloMessage = React.createClass({
     onChange: function (e) {
         var v = e.target.value;
         if (v.trim() != '') {
-
             this.setState({
                 keyword: v,
                 visibility: 'visible'
