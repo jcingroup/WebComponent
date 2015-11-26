@@ -86,7 +86,7 @@
             <table>
                 <tbody>
                 <tr>
-                <td>----</td>
+                <td>Left</td>
                 <td>
                                     <input type="text" value={this.state.keyword}
                                            onChange={this.onChange}
@@ -95,9 +95,9 @@
                 </td>
                 </tr>
                 <tr>
-                <td>----</td>
+                <td>Left</td>
                 <td>
-                    <input type="text" value="" />
+                    <input type="text" value="下方元件" />
                 </td>
                 </tr>
                 </tbody>
