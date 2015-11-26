@@ -41,9 +41,15 @@
 
         console.log('clear', new Date());
 
-        this.setState({
-            visibility: 'visible'
-        });
+        if (this.state.keyword.trim() == '') {
+            this.setState({
+                visibility: 'hidden'
+            });
+        } else {
+            this.setState({
+                visibility: 'visible'
+            });
+        }
     },
     render: function () {
         var st = { visibility: this.state.visibility };
