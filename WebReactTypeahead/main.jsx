@@ -83,25 +83,23 @@
             out_selector = <Selector data={this.state.data} pointIndex={this.state.pointIndex} />;
         }
         return (
-            <table>
-                <tbody>
-                <tr>
-                <td>Left</td>
-                <td>
-                                    <input type="text" value={this.state.keyword}
-                                           onChange={this.onChange}
-                                           onKeyDown={this.keyDown} />
-                    {out_selector}
-                </td>
-                </tr>
-                <tr>
-                <td>Left</td>
-                <td>
-                    <input type="text" value="下方元件" />
-                </td>
-                </tr>
-                </tbody>
-            </table>
+            <div id="main">
+                <div className="panel panel-default">
+                    <div className="panel-heading">Left</div>
+                    <div className="panel-body">
+                        <input className="form-control" type="text" value={this.state.keyword}
+                            onChange={this.onChange}
+                            onKeyDown={this.keyDown} />
+                        {out_selector}
+                    </div>
+                </div>
+                <div className="panel panel-default">
+                    <div className="panel-heading">Left</div>
+                    <div className="panel-body">
+                        <input className="form-control" type="text" value="下方元件" />
+                    </div>
+                </div>
+            </div>
         );
     }
 });
@@ -115,20 +113,20 @@ var Selector = React.createClass({
     },
     render: function () {
         return (
-            <ul className="main">
+            <div className="typeahead-panel list-group">
                 {
                 this.props.data.map(function(item,i){
                 if(this.props.pointIndex == i)
                 {
-                return (<Options setClass="hove" data={item} key={item.value} />);
+                return (<Options setClass="list-group-item active" data={item} key={item.value} />);
                 }
                 else
                 {
-                return (<Options setClass="item" data={item} key={item.value} />);
+                return (<Options setClass="list-group-item" data={item} key={item.value} />);
                 }
                 }.bind(this))
                 }
-            </ul>
+            </div>
         );
     }
 });
@@ -144,15 +142,13 @@ var Options = React.createClass({
     },
     getDefaultProps: function () {
         return {
-            setClass: 'item'
+            setClass: 'list-group-item'
         };
     },
 
     render: function () {
         return (
-                <li className={this.props.setClass}>
-                    <a href="#">{this.props.data.text}</a>
-                </li>
+            <a className={this.props.setClass} href="#">{this.props.data.text}</a>
         );
     }
 });
