@@ -7,13 +7,51 @@
     <link href="/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link href="typeahead.css" rel="stylesheet" />
     <style>
-        #main {
+        /* typeahead */
+        .typeahead-group {
+            position: relative;
+        }
+        .typeahead-panel {
+            width:100%;
+            position: absolute;
+            left:0; margin-top:10px;
+
+            z-index:10;
+        }
+
+        /* 不重要 */
+        #main, .test {
             width:600px;
             margin:20px auto;
         }
     </style>
 </head>
 <body>
+
+    <div class="test">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="" class="control-label col-xs-2">Left</label>
+                <div class="col-xs-10">
+                    <div class="typeahead-group">
+                        <input type="text" class="form-control">
+                        <div class="typeahead-panel list-group">
+                            <a href="" class="list-group-item active">item 1</a>
+                            <a href="" class="list-group-item">item 2</a>
+                            <a href="" class="list-group-item">item 3</a>
+                        </div>
+                    </div><!-- tyoeahead -->
+                </div>
+            </div><!-- form-group -->
+            <div class="form-group">
+                <label for="" class="control-label col-xs-2">Left</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control">
+                </div>
+            </div><!-- form-group -->
+        </div><!-- form -->
+    </div><!-- test -->
+
     <script src="https://fb.me/react-0.14.3.js"></script>
     <script src="https://fb.me/react-dom-0.14.3.js"></script>
     <div id="context"></div>
