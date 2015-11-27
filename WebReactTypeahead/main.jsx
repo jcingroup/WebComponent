@@ -53,8 +53,6 @@
         }
     },
     keyDown: function (e) {
-        //ArrowDown 40
-        //ArrowUp 38
 
         if (e.keyCode == 40) { // key down
             if (this.state.pointIndex < this.state.data.length - 1) {
@@ -76,12 +74,12 @@
             this.setState({ pointIndex: -1, visibility: false });
             this._Complete();
         }
-         
+
         if (e.keyCode == 27) { //key esc restroe value
             this.setState({ pointIndex: -1, visibility: false, keyword: this.props.value });
         }
 
-        console.log('key down', e.key, e.keyCode);
+        //console.log('key down', e.key, e.keyCode);
     },
     onBlur: function (e) {
         this.setState({ pointIndex: -1, visibility: false });
@@ -92,29 +90,17 @@
     },
     render: function () {
         var out_selector = null;
-        //console.log(this.state.data);
         if (this.state.visibility) {
             out_selector = <Selector data={this.state.data} pointIndex={this.state.pointIndex} />;
         }
         return (
-            <div id="main" className="form-horizontal">
-                <div className="form-group">
-                    <label className="control-label col-xs-2">Left</label>
-                    <div className="col-xs-10">
+                    <div className={this.props.inputClass}>
                         <input className="form-control" type="text" value={this.state.keyword}
                                onChange={this.onChange}
                                onKeyDown={this.keyDown}
                                onBlur={this.onBlur} />
                         {out_selector}
                     </div>
-                </div>
-                <div className="form-group">
-                    <label className="control-label col-xs-2">Left</label>
-                    <div className="col-xs-10">
-                        <input className="form-control" type="text" value="下方元件" />
-                    </div>
-                </div>
-            </div>
         );
     }
 });
@@ -156,7 +142,6 @@ var Options = React.createClass({
             setClass: 'list-group-item'
         };
     },
-
     render: function () {
         return (
             <a className={this.props.setClass} href="#">{this.props.data.text}</a>
@@ -164,6 +149,7 @@ var Options = React.createClass({
     }
 });
 
+//系統元件 call ReactTypeaheader範例
 var Main = React.createClass({
     getInitialState: function () {
         return {
@@ -180,7 +166,23 @@ var Main = React.createClass({
     },
     render: function () {
         return (
-            <ReactTypeaheader onCompleteChange={this.onChange} fieldName="product_sn" value={this.state.field_value} />
+             <div id="main" className="form-horizontal">
+
+                <div className="form-group">
+                    <label className="control-label col-xs-2">Left</label>
+                    {/*正確置放元件啟始*/}
+                    <ReactTypeaheader onCompleteChange={this.onChange}
+                                        fieldName="product_sn"
+                                        value={this.state.field_value}
+                                        inputClass="col-xs-10" />
+                </div>
+                <div className="form-group">
+                    <label className="control-label col-xs-2">Left</label>
+                    <div className="col-xs-10">
+                        <input className="form-control" type="text" value="下方元件" />
+                    </div>
+                </div>
+             </div>
         );
     }
 });

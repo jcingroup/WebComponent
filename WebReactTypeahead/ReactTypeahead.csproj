@@ -80,6 +80,7 @@
   <ItemGroup>
     <Content Include="build\main.js" />
     <Content Include="index.html" />
+    <Content Include="typeahead.css" />
     <Content Include="Web.config" />
     <Content Include="webpack.config.js" />
   </ItemGroup>
