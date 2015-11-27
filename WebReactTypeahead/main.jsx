@@ -149,7 +149,7 @@ var Options = React.createClass({
     }
 });
 
-//系統元件 call ReactTypeaheader範例
+//測試元件 call ReactTypeaheader範例
 var Main = React.createClass({
     getInitialState: function () {
         return {
