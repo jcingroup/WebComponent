@@ -83,19 +83,19 @@
             out_selector = <Selector data={this.state.data} pointIndex={this.state.pointIndex} />;
         }
         return (
-            <div id="main">
-                <div className="panel panel-default">
-                    <div className="panel-heading">Left</div>
-                    <div className="panel-body">
+            <div id="main" className="form-horizontal">
+                <div className="form-group">
+                    <label className="control-label col-xs-2">Left</label>
+                    <div className="col-xs-10">
                         <input className="form-control" type="text" value={this.state.keyword}
                             onChange={this.onChange}
                             onKeyDown={this.keyDown} />
                         {out_selector}
                     </div>
                 </div>
-                <div className="panel panel-default">
-                    <div className="panel-heading">Left</div>
-                    <div className="panel-body">
+                <div className="form-group">
+                    <label className="control-label col-xs-2">Left</label>
+                    <div className="col-xs-10">
                         <input className="form-control" type="text" value="下方元件" />
                     </div>
                 </div>
