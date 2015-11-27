@@ -35,11 +35,12 @@
             });
         }
     },
-    onClickItem: function (v, e) {
+    _onClickItem: function (v, e) {
+        console.log('V', v);
         this.setState({ keyword: v, visibility: false });
     },
     getData: function (m) {
-        console.log(new Date(), 'start query', m);
+        //console.log(new Date(), 'start query', m);
         clearTimeout(this.tid);
         this.tid = 0;
         if (this.state.keyword.trim() == '') {
@@ -91,7 +92,7 @@
     render: function () {
         var out_selector = null;
         if (this.state.visibility) {
-            out_selector = <Selector data={this.state.data} pointIndex={this.state.pointIndex} />;
+            out_selector = <Selector data={this.state.data} pointIndex={this.state.pointIndex} onClickItem={this._onClickItem} />;
         }
         return (
                     <div className={this.props.inputClass}>
@@ -117,11 +118,11 @@ var Selector = React.createClass({
                 this.props.data.map(function(item,i){
                 if(this.props.pointIndex == i)
                 {
-                return (<Options setClass="list-group-item active" data={item} key={item.value} />);
+                return (<Options setClass="list-group-item active" data={item} key={item.value} onClickItem={this.props.onClickItem} />);
                 }
                 else
                 {
-                return (<Options setClass="list-group-item" data={item} key={item.value} />);
+                return (<Options setClass="list-group-item" data={item} key={item.value} onClickItem={this.props.onClickItem} />);
                 }
                 }.bind(this))
                 }
@@ -132,9 +133,7 @@ var Selector = React.createClass({
 
 var Options = React.createClass({
     getInitialState: function () {
-
         return {
-
         };
     },
     getDefaultProps: function () {
@@ -142,9 +141,15 @@ var Options = React.createClass({
             setClass: 'list-group-item'
         };
     },
+    _onClickItem: function (v, e) {
+        alert('T')
+        this.props.onClickItem(v, e);
+    },
     render: function () {
         return (
-            <a className={this.props.setClass} href="#">{this.props.data.text}</a>
+            <a className={this.props.setClass} href="#" onClick={this._onClickItem.bind(this,this.props.data.value)}>
+                {this.props.data.text}
+            </a>
         );
     }
 });
@@ -172,9 +177,9 @@ var Main = React.createClass({
                     <label className="control-label col-xs-2">Left</label>
                     {/*正確置放元件啟始*/}
                     <ReactTypeaheader onCompleteChange={this.onChange}
-                                        fieldName="product_sn"
-                                        value={this.state.field_value}
-                                        inputClass="col-xs-10" />
+                                      fieldName="product_sn"
+                                      value={this.state.field_value}
+                                      inputClass="col-xs-10" />
                 </div>
                 <div className="form-group">
                     <label className="control-label col-xs-2">Left</label>
