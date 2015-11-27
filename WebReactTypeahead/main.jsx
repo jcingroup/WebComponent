@@ -4,7 +4,7 @@
         this.tid = 0;
         return {
             inputValue: null,
-            keyword: null,
+            keyword: this.props.value,
             visibility: false,
             tid: null,
             data: [
@@ -39,7 +39,7 @@
         this.setState({ keyword: v, visibility: false });
     },
     getData: function (m) {
-        console.log(new Date(),'start query',m);
+        console.log(new Date(), 'start query', m);
         clearTimeout(this.tid);
         this.tid = 0;
         if (this.state.keyword.trim() == '') {
@@ -56,15 +56,15 @@
         //ArrowDown 40
         //ArrowUp 38
 
-        if (e.keyCode == 40) {
-            if (this.state.pointIndex < this.state.data.length) {
+        if (e.keyCode == 40) { // key down
+            if (this.state.pointIndex < this.state.data.length - 1) {
                 var new_pos = this.state.pointIndex + 1;
                 var index_value = this.state.data[new_pos].value;
                 this.setState({ pointIndex: new_pos, keyword: index_value });
             }
         }
 
-        if (e.keyCode == 38) {
+        if (e.keyCode == 38) { //key up
             if (this.state.pointIndex > 0) {
                 var new_pos = this.state.pointIndex - 1;
                 var index_value = this.state.data[new_pos].value;
@@ -72,20 +72,27 @@
             }
         }
 
-        if (e.keyCode == 13) {
+        if (e.keyCode == 13) { //key enter
             this.setState({ pointIndex: -1, visibility: false });
+            this._Complete();
+        }
+         
+        if (e.keyCode == 27) { //key esc restroe value
+            this.setState({ pointIndex: -1, visibility: false, keyword: this.props.value });
         }
 
         console.log('key down', e.key, e.keyCode);
     },
     onBlur: function (e) {
         this.setState({ pointIndex: -1, visibility: false });
+        this._Complete();
     },
-    _Complete: function (e) {
+    _Complete: function () {
+        this.props.onCompleteChange(this.props.fieldName, this.state.keyword);
     },
     render: function () {
         var out_selector = null;
-        console.log(this.state.data);
+        //console.log(this.state.data);
         if (this.state.visibility) {
             out_selector = <Selector data={this.state.data} pointIndex={this.state.pointIndex} />;
         }
@@ -95,10 +102,9 @@
                     <label className="control-label col-xs-2">Left</label>
                     <div className="col-xs-10">
                         <input className="form-control" type="text" value={this.state.keyword}
-                            onChange={this.onChange}
-                            onKeyDown={this.keyDown}
-                            onBlur={this.onBlur}
-                                />
+                               onChange={this.onChange}
+                               onKeyDown={this.keyDown}
+                               onBlur={this.onBlur} />
                         {out_selector}
                     </div>
                 </div>
@@ -113,9 +119,7 @@
     }
 });
 
-
 var Selector = React.createClass({
-
     getInitialState: function () {
         return {
         };
@@ -140,9 +144,7 @@ var Selector = React.createClass({
     }
 });
 
-
 var Options = React.createClass({
-
     getInitialState: function () {
 
         return {
@@ -163,21 +165,22 @@ var Options = React.createClass({
 });
 
 var Main = React.createClass({
-
     getInitialState: function () {
-
         return {
-
+            field_value: 'C0001'
         };
     },
     getDefaultProps: function () {
         return {
-            
         };
+    },
+    onChange: function (f, v) {
+        console.log(f, v);
+        this.setState({ field_value: v });
     },
     render: function () {
         return (
-            <ReactTypeaheader />
+            <ReactTypeaheader onCompleteChange={this.onChange} fieldName="product_sn" value={this.state.field_value} />
         );
     }
 });
