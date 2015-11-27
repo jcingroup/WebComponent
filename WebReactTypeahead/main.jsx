@@ -24,9 +24,10 @@
 
             var _this = this;
             var f = function () { _this.getData(v) };
-            if (this.tid == 0) {
-                this.tid = setTimeout(f, 500);
-            }
+
+            clearTimeout(this.tid);
+            this.tid = setTimeout(f, 500);
+
         } else {
             this.setState({
                 keyword: v,
@@ -38,6 +39,7 @@
         this.setState({ keyword: v, visibility: false });
     },
     getData: function (m) {
+        console.log(new Date(),'start query',m);
         clearTimeout(this.tid);
         this.tid = 0;
         if (this.state.keyword.trim() == '') {
@@ -76,6 +78,11 @@
 
         console.log('key down', e.key, e.keyCode);
     },
+    onBlur: function (e) {
+        this.setState({ pointIndex: -1, visibility: false });
+    },
+    _Complete: function (e) {
+    },
     render: function () {
         var out_selector = null;
         console.log(this.state.data);
@@ -89,7 +96,9 @@
                     <div className="col-xs-10">
                         <input className="form-control" type="text" value={this.state.keyword}
                             onChange={this.onChange}
-                            onKeyDown={this.keyDown} />
+                            onKeyDown={this.keyDown}
+                            onBlur={this.onBlur}
+                                />
                         {out_selector}
                     </div>
                 </div>
@@ -153,5 +162,25 @@ var Options = React.createClass({
     }
 });
 
+var Main = React.createClass({
+
+    getInitialState: function () {
+
+        return {
+
+        };
+    },
+    getDefaultProps: function () {
+        return {
+            
+        };
+    },
+    render: function () {
+        return (
+            <ReactTypeaheader />
+        );
+    }
+});
+
 var mountNode = document.getElementById("context");
-ReactDOM.render(<ReactTypeaheader />, mountNode);
+ReactDOM.render(<Main />, mountNode);
